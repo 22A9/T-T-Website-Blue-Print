@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Travel And Tourism</title>
+	<link rel="stylesheet" type="text/css" href="pspk.css">
+	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+<body>
+
+<nav>
+	<div class="logo">
+	<a href="#"><img src="Logo.html.png" alt="logo">Travel</a>
+</div>
+	<div class="toggle">
+		<a href="#"><ion-icon name="menu-outline"></ion-icon></a></div>
+	<ul class="menu">
+		<li><a href="#">Home</a></li>
+		<li><a href="#about">About</a></li>
+		<li><a href="#">Places</a></li>
+		<li><a href="#" id="loginBtn"><button>Login</button></a></li>
+		<li><a href="#" id="signupBtn"><button>Signup</button></a></li>
+	</ul>
+</nav>
+
+<section id="about">
+	<div class="about-container">
+		<h2>About Us</h2>
+		<p>Welcome to our Travel and Tourism website, your gateway to exploring India's rich cultural heritage. Our mission is to offer detailed insights into the beauty of India's historical places, cultural traditions, and stunning landscapes. We are dedicated to providing the best travel experiences, guiding you month by month to discover hidden gems behind each state of India.</p>
+		<p>Whether you seek adventure, tranquility, or cultural experiences, our curated travel destinations will inspire your journey.</p>
+	</div>
+</section>
+        <div class="tours">
+            <div class="places">
+                <h2>KASHMIR</h2>
+                <img src="Kashmir.jpg" alt="Kashmir">
+                <br>
+                <br>
+                <a href="pspk.html?place=kashmir">Book Now 15% OFF</a>
+            </div>
+            <div class="places">
+                <h2>GOA</h2>
+                <img src="Goa.jpg" alt="Goa">
+                <br>
+                <br>
+                <a href="pspk.html?place=goa">Book Now 20% OFF</a>
+            </div>
+            <div class="places">
+                <h2>KERALA</h2>
+                <img src="Kerala.jpg" alt="Kerala">
+                <br>
+                <br>
+                <a href="pspk.html?place=kerala">Book Now 25% OFF</a>
+            </div>
+        </div>
+
+<div class="top-bar">
+	<span><ion-icon name="call-outline"></ion-icon> 99513 98555</span>
+	<ul>
+       <li><a href="#"><ion-icon name="logo-facebook"></ion-icon></a></li>
+       <li><a href="#"><ion-icon name="logo-twitter"></ion-icon></a></li> 
+       <li><a href="#"><ion-icon name="logo-instagram"></ion-icon></a></li>
+	</ul>
+</div>
+
+<!-- Place-specific pages -->
+<div id="place-page" style="display:none; padding: 40px; color: white; text-align: center;">
+  <button id="backBtn" style="margin-bottom: 20px; padding: 10px 20px; background: #ef4b3f; border: none; color: white; border-radius: 5px; cursor: pointer;">Back to Home</button>
+  <h2 id="placeTitle"></h2>
+  <ul id="placeList" style="list-style: none; padding: 0; max-width: 600px; margin: 20px auto; font-size: 18px;"></ul>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <p>&copy; 2023 Travel And Tourism. All rights reserved.</p>
+        <p>Contact us: <a href="tel:9951398555">99513 98555</a></p>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+  // Place page data
+  const placeData = {
+    kashmir: {
+      title: "Explore Kashmir",
+      background: "Kashmir.jpg",
+      list: [
+        "Explore Srinagar Lakes",
+        "Visit Gulmarg Meadows",
+        "Discover Pahalgam Valleys",
+        "Experience Local Cuisine",
+        "Shop for Handicrafts"
+      ],
+      culture: "Kashmir is known for its rich cultural heritage including traditional handicrafts, music, and cuisine."
+    },
+    goa: {
+      title: "Discover Goa",
+      background: "Goa.jpg",
+      list: [
+        "Relax on Baga Beach",
+        "Visit Fort Aguada",
+        "Enjoy Nightlife in Panaji",
+        "Explore Old Goa Churches",
+        "Try Goan Seafood"
+      ],
+      culture: "Goa boasts a unique blend of Indian and Portuguese cultures, famous for its festivals, music, and cuisine."
+    },
+    kerala: {
+      title: "Visit Kerala",
+      background: "Kerala.jpg",
+      list: [
+        "Cruise the Backwaters",
+        "Trek in Munnar Hills",
+        "Experience Ayurvedic Spa",
+        "Visit Periyar Wildlife Sanctuary",
+        "Enjoy Kathakali Dance"
+      ],
+      culture: "Kerala is renowned for its classical dance forms, Ayurveda, and vibrant festivals reflecting its diverse traditions."
+    }
+  };
+
+	$(function(){
+		$(".toggle").on("click", function(){
+         if($(".menu").hasClass("active")){
+           $(".menu").removeClass("active");
+           $(this).find("a").html("<ion-icon name='menu-outline'></ion-icon>");
+         } else{
+         	$(".menu").addClass("active");
+         	$(this).find("a").html("<ion-icon name='close-outline'></ion-icon>");
+         }
+		});
+
+    // Check URL query for place
+    const urlParams = new URLSearchParams(window.location.search);
+    const place = urlParams.get('place');
+
+    if (place && placeData[place]) {
+      // Hide main content
+      $('nav, #about, .tours, .top-bar, footer').hide();
+
+      // Show place page
+      const data = placeData[place];
+      $('#placeTitle').text(data.title);
+      $('#placeList').empty();
+      data.list.forEach(item => {
+        $('#placeList').append(`<li>${item}</li>`);
+      });
+      if(data.culture){
+        $('#placeList').append(`<li><strong>Culture:</strong> ${data.culture}</li>`);
+      }
+      $('#place-page').show();
+
+      // Set background image
+      $('body').css({
+        'background-image': `url('${data.background}')`,
+        'background-size': 'cover',
+        'background-position': 'center',
+        'min-height': '100vh',
+        'color': 'white'
+      });
+    }
+
+    // Back button handler
+    $('#backBtn').click(function() {
+      window.location.href = 'pspk.html';
+    });
+	});
+</script>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="loginClose">&times;</span>
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="loginEmail">Email:</label>
+      <input type="email" id="loginEmail" name="loginEmail" required>
+      <label for="loginPassword">Password:</label>
+      <input type="password" id="loginPassword" name="loginPassword" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
+<!-- Signup Modal -->
+<div id="signupModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="signupClose">&times;</span>
+    <h2>Signup</h2>
+    <form id="signupForm">
+      <label for="signupName">Name:</label>
+      <input type="text" id="signupName" name="signupName" required>
+      <label for="signupEmail">Email:</label>
+      <input type="email" id="signupEmail" name="signupEmail" required>
+      <label for="signupPassword">Password:</label>
+      <input type="password" id="signupPassword" name="signupPassword" required>
+      <button type="submit">Signup</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Modal handling
+  $(document).ready(function() {
+    var loginModal = $('#loginModal');
+    var signupModal = $('#signupModal');
+
+    $('#loginBtn').click(function(e) {
+      e.preventDefault();
+      loginModal.show();
+    });
+
+    $('#signupBtn').click(function(e) {
+      e.preventDefault();
+      signupModal.show();
+    });
+
+    $('.close').click(function() {
+      loginModal.hide();
+      signupModal.hide();
+    });
+
+    // Close modal when clicking outside content
+    $(window).click(function(event) {
+      if ($(event.target).is(loginModal)) {
+        loginModal.hide();
+      }
+      if ($(event.target).is(signupModal)) {
+        signupModal.hide();
+      }
+    });
+
+    // Form submission handlers (basic example)
+    $('#loginForm').submit(function(e) {
+      e.preventDefault();
+      alert('Login form submitted');
+      loginModal.hide();
+    });
+
+    $('#signupForm').submit(function(e) {
+      e.preventDefault();
+      alert('Signup form submitted');
+      signupModal.hide();
+    });
+  });
+</script>
+
+<style>
+  /* Modal styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+  }
+
+  form label {
+    display: block;
+    margin-top: 10px;
+  }
+
+  form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+
+  form button {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    background-color: #ef4b3f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  form button:hover {
+    background-color: #d43a2f;
+  }
+</style>
+
+</body>
+</html>
